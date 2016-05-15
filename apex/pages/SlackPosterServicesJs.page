@@ -1,0 +1,58 @@
+<apex:page >
+    <script type="text/javascript">
+        var app = angular.module("Services", []);
+
+        // 共通変数
+        app.factory("fieldHelper", function() {
+            function getWrapper() {
+                return {
+                    channel : '#general',
+                    username : 'Salesforce Admin',
+                    text : '',
+                    icon_emoji : ':cloud:'
+                };
+            }
+            return {
+                getWrapper: function() {
+                    return getWrapper();
+                }
+            }; 
+        });
+
+        app.factory("SlackPosterFormServices", ["$rootScope", function($rootScope) {
+            // 初期処理
+            function init(scope) {
+                console.log('Hello');
+            }
+
+            // Slack Post
+            function post(scope) {
+                SlackPosterController.postSlackApi(
+                    scope.fields,
+                    function(results, event) {
+                        if(event.status) {
+                            // 結果をセット
+                            console.log(results);
+                        } else {
+                            scope.errorMessages = event.message;
+                        }
+                        // ロック解除
+                        scope.isLocked = false;
+                        // Viewに反映
+                        $rootScope.$apply();
+                    },
+                    { buffer: true, escape: false, timeout: 30000 }
+                );
+            }
+
+            return {
+                init: function(scope) {
+                    return init(scope);
+                },
+                post: function(scope) {
+                    return post(scope);
+                }
+            };
+        }]);
+    </script>
+</apex:page>

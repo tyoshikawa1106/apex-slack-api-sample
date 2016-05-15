@@ -1,0 +1,17 @@
+<apex:page controller="SlackPosterController" showHeader="true" sidebar="true" readOnly="true">
+    <!-- Library -->
+    <apex:includeScript value="{!URLFOR($Resource.AngularJsLib, 'angular/angular.min.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.AngularJsLib, 'angular-route/angular-route.js')}" />
+    <apex:includeScript value="{!URLFOR($Resource.AngularJsLib, 'angular-messages/angular-messages.min.js')}" />
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS103, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />
+    <!-- Apps -->
+    <div id="vf-page" class="slds">
+      <div ng-app="myApp">
+          <div ng-view="true" autoscroll="true"></div>
+      </div>
+    </div>
+    <!-- AngularJs -->
+    <apex:include pageName="SlackPosterAppJs" />
+    <apex:include pageName="SlackPosterControllersJs" />
+    <apex:include pageName="SlackPosterServicesJs" />
+</apex:page>

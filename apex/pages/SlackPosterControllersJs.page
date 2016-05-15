@@ -1,0 +1,39 @@
+<apex:page >
+    <script type="text/javascript">
+        (function(){
+            "use strict";
+            
+            beenFocused = true;
+
+            var app = angular.module("Controllers", ["Services"]);
+
+            // 例外処理
+            app.factory("$exceptionHandler", function () {
+                return function (exception, cause) {
+                    console.log(exception.message);
+                    var msg = "画面の処理中にエラーが発生しました。" + "ご迷惑をおかけしております。";
+                    alert(msg);
+                };
+            });
+        
+            // SlackPosterFormCtrl
+            app.controller("SlackPosterFormCtrl", ["$scope", "SlackPosterFormServices", "fieldHelper", function($scope, services, fieldHelper) {
+                try {
+                    services.init($scope);
+
+                    $scope.isLocked = false;
+                    $scope.fields = fieldHelper.getWrapper();
+
+                    $scope.post = function(event) {
+                      event.preventDefault();
+                      $scope.isLocked = true;
+                      services.post($scope);
+                    };
+
+                } catch (e) {
+                    throw e;
+                }
+            }]);
+        })();
+    </script>
+</apex:page>

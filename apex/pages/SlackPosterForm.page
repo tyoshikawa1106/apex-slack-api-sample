@@ -1,0 +1,41 @@
+<apex:page showHeader="false" applyHtmlTag="false" applyBodyTag="false" standardStylesheets="false">
+    <div xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+        <div class="slds-text-heading--large">Salesforce &amp; Slack API</div>
+        <form name="inputForm" novalidate="true" class="slds-m-horizontal--small slds-m-top--small">
+            <!-- エラーメッセージ -->
+            <div class="slds-box slds-theme--info slds-m-bottom--small" ng-show="!!errorMessages.length">
+                <p><span ng-bind="errorMessages"></span></p>
+            </div>
+            <!-- チャンネル -->
+            <div class="slds-form-element">
+                <label class="slds-form-element__label" for="select-01">Channel</label>
+                <div class="slds-form-element__control">
+                    <div class="slds-select_container">
+                        <select id="Channel" class="slds-select" ng-model="fields.channel">
+                            <option value="#general">#general</option>
+                            <option value="#random">#random</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <!-- 投稿メッセージ -->
+            <div class="slds-form-element" ng-class="{'slds-has-error': inputForm.message.$invalid && inputForm.message.$dirty}">
+                <label class="slds-form-element__label" for="message">Message</label>
+                <div class="slds-form-element__control">
+                    <textarea name="message" ng-model="fields.text" class="slds-textarea" ng-maxlength="500" rows="10" required="true" />
+                    <div ng-messages="inputForm.message.$error" ng-if="inputForm.message.$dirty">
+                        <div ng-message="required" class="slds-form-element__help">値を入力してください</div>
+                        <div ng-message="maxlength" class="slds-form-element__help">文字数が上限を超えました</div>
+                    </div>
+                    <div class="slds-form-element__help"></div>
+                </div>
+            </div>
+            <div class="slds-m-top--small">
+                <!-- ボタン -->
+                <div class="slds-m-top--small">
+                    <button ng-click="post($event)" class="slds-button slds-button--brand" ng-disabled="inputForm.$invalid || isLocked">POST</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</apex:page>
